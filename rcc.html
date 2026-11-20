@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Registro de Cadena de Custodia | Módulo de campo</title>
+<meta name="description" content="Digitalización del formato de Registro de Cadena de Custodia (Anexo 2019)." />
+<link rel="icon" href="icon.svg" type="image/svg+xml" />
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.css" rel="stylesheet" />
+<link rel="stylesheet" href="css/variables.css" />
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/print.css" />
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.js" defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>
+<script src="js/config.js" defer></script>
+<script src="js/theme.js" defer></script>
+<script src="js/auth.js" defer></script>
+<script src="js/map.js" defer></script>
+<script src="js/form.js" defer></script>
+<script src="js/main.js" defer></script>
+</head>
+<body>
+
+<!-- Módulo protegido: la sesión se valida con el backend -->
+<main class="app-shell" id="appShell">
+
+  <header class="topbar">
+    <div class="brand-mark" aria-label="Cadena de custodia"><span>C</span></div>
+    <div class="topbar-title"><span class="eyebrow">MÓDULO DE CAMPO</span><strong>Cadena de custodia</strong></div>
+    <div class="topbar-actions">
+      <button class="icon-button theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+        <i data-lucide="sun" class="icon-sun"></i>
+        <i data-lucide="moon" class="icon-moon"></i>
+      </button>
+      <button class="icon-button" aria-label="Notificaciones"><i data-lucide="bell"></i></button>
+      <div class="profile">
+        <div class="avatar" id="topAvatar">--</div>
+        <div class="profile-copy"><strong id="topName">—</strong><span id="topRole">—</span></div>
+      </div>
+      <button class="icon-button menu-trigger" id="menuTrigger" aria-label="Más opciones"><i data-lucide="menu"></i></button>
+      <div class="menu-popover" id="menuPopover" hidden>
+        <a href="index.html" style="display:block;padding:9px;font-size:12px;color:var(--card-foreground);text-decoration:none;border-radius:4px">Volver al panel de inicio</a>
+        <button id="openProfile">Mi perfil</button>
+        <button id="logoutBtn">Cerrar sesión</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-wrap">
+    <div class="breadcrumb"><a href="index.html">Panel de inicio</a><span>/</span><strong>Registro de Cadena de Custodia</strong></div>
+
+    <div class="page-heading">
+      <div>
+        <p class="kicker">FORMATO ANEXO 2019</p>
+        <h1>Registro de Cadena de Custodia</h1>
+        <p class="lede">Los campos marcados como <span class="badge-auto">AUTO</span> se llenan solos con tu ubicación, hora y datos de tu cuenta. Puedes editarlos si algo no coincide.</p>
+      </div>
+      <div class="heading-actions">
+        <span class="status-pill"><span></span> Borrador</span>
+        <button class="secondary-button" id="btnPrint"><i data-lucide="printer"></i> Imprimir</button>
+        <button class="secondary-button" id="btnExport"><i data-lucide="download"></i> Exportar JSON</button>
+        <button class="primary-button" id="btnSave"><i data-lucide="save"></i> Guardar</button>
+      </div>
+    </div>
+
+    <!-- DATOS GENERALES -->
+    <section class="record-card">
+      <div class="record-top">
+        <div class="record-label"><i data-lucide="file-text"></i><span>DATOS GENERALES</span></div>
+        <span class="folio">No. DE REFERENCIA <input type="text" id="folio" class="inline-input" placeholder="F-2847" /></span>
+      </div>
+      <div class="record-grid four">
+        <div class="field">
+          <span>Institución o unidad administrativa</span>
+          <input type="text" id="institucion" placeholder="Ej. Fiscalía Regional" />
+        </div>
+        <div class="field">
+          <span>Folio o llamado</span>
+          <input type="text" id="folioLlamado" placeholder="Ej. 128/2026" />
+        </div>
+        <div class="field">
+          <span>Fecha y hora de intervención <span class="badge-auto">AUTO</span></span>
+          <input type="text" id="fechaHora" />
+        </div>
+        <div class="field">
+          <span>Persona que realiza el registro <span class="badge-auto">AUTO</span></span>
+          <input type="text" id="personaRegistro" />
+        </div>
+      </div>
+      <div class="field wide-field">
+        <span>Lugar de intervención <span class="badge-auto">AUTO</span></span>
+        <textarea id="lugarIntervencion" rows="2" placeholder="Se llena al obtener tu ubicación..."></textarea>
+      </div>
+
+      <div class="map-block">
+        <div id="mapPrincipal" class="mapbox-container"></div>
+        <div class="map-side">
+          <span class="body-label">UBICACIÓN GPS <span class="badge-auto">AUTO</span></span>
+          <strong id="coordsText" class="coords-text"><i data-lucide="map-pin"></i> Obteniendo ubicación...</strong>
+          <p id="mapHint" class="helper-text">Si el navegador lo pide, permite el acceso a tu ubicación. Puedes arrastrar el pin para ajustarla.</p>
+          <button class="secondary-button" id="btnRelocate"><i data-lucide="locate-fixed"></i> Usar mi ubicación actual</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-list">
+
+      <!-- 0. INICIO DE LA CADENA DE CUSTODIA -->
+      <article class="accordion-card" data-section="inicio">
+        <button class="section-header" aria-expanded="true">
+          <span class="section-number">01</span>
+          <span class="section-title"><i data-lucide="flag"></i>Inicio de la cadena de custodia</span>
+          <i data-lucide="chevron-up" class="chev"></i>
+        </button>
+        <div class="accordion-body">
+          <p class="helper-text">Marca el motivo por el cual comienza el registro.</p>
+          <div class="radio-pills" id="inicioMotivo">
+            <label><input type="radio" name="motivo" value="Localización" /> Localización</label>
+            <label><input type="radio" name="motivo" value="Descubrimiento" /> Descubrimiento</label>
+            <label><input type="radio" name="motivo" value="Aportación" /> Aportación</label>
+          </div>
+        </div>
+      </article>
+
+      <!-- 1. IDENTIDAD -->
+      <article class="accordion-card" data-section="identidad">
+        <button class="section-header" aria-expanded="true">
+          <span class="section-number">02</span>
+          <span class="section-title"><i data-lucide="layers-3"></i>Identidad de indicios / evidencia</span>
+          <i data-lucide="chevron-up" class="chev"></i>
+        </button>
+        <div class="accordion-body">
+          <p class="helper-text">Número, letra o combinación asignada al indicio, su descripción, ubicación en el lugar y hora de recolección. Agrega evidencia fotográfica por indicio.</p>
+          <table class="data-table" id="tablaIdentidad">
+            <thead>
+              <tr><th>Identificación</th><th>Descripción</th><th>Ubicación en el lugar</th><th>Hora de recolección</th><th>Foto</th><th></th></tr>
+            </thead>
+            <tbody id="identidadBody"></tbody>
+          </table>
+          <button class="text-link add-row-btn" id="addIdentidadRow"><i data-lucide="plus"></i> Agregar indicio</button>
+        </div>
+      </article>
+
+      <!-- 2. DOCUMENTACIÓN -->
+      <article class="accordion-card" data-section="documentacion">
+        <button class="section-header" aria-expanded="false">
+          <span class="section-number">03</span>
+          <span class="section-title"><i data-lucide="clipboard-list"></i>Documentación</span>
+          <i data-lucide="chevron-down" class="chev"></i>
+        </button>
+        <div class="accordion-body" hidden>
+          <p class="helper-text">Métodos empleados para documentar el hallazgo.</p>
+          <div class="checkbox-row">
+            <label><input type="checkbox" name="doc" value="Escrito" /> Escrito</label>
+            <label><input type="checkbox" name="doc" value="Fotográfico" /> Fotográfico</label>
+            <label><input type="checkbox" name="doc" value="Croquis" /> Croquis</label>
+            <label><input type="checkbox" id="docOtroCheck" name="doc" value="Otro" /> Otro</label>
+          </div>
+          <div class="field wide-field">
+            <span>Especifique (si marcaste "Otro")</span>
+            <input type="text" id="docOtroTexto" disabled placeholder="Describe el método adicional" />
+          </div>
+        </div>
+      </article>
+
+      <!-- 3. RECOLECCIÓN -->
+      <article class="accordion-card" data-section="recoleccion">
+        <button class="section-header" aria-expanded="false">
+          <span class="section-number">04</span>
+          <span class="section-title"><i data-lucide="hand"></i>Recolección</span>
+          <i data-lucide="chevron-down" class="chev"></i>
+        </button>
+        <div class="accordion-body" hidden>
+          <p class="helper-text">Indica el número, letra o combinación de los indicios según cómo fueron levantados. Puedes usar intervalos (ej. 1A–1D).</p>
+          <div class="record-grid two">
+            <div class="field"><span>Manual</span><textarea id="recoleccionManual" rows="2" placeholder="Ej. 1A, 2B"></textarea></div>
+            <div class="field"><span>Instrumental</span><textarea id="recoleccionInstrumental" rows="2" placeholder="Ej. 3A–3C"></textarea></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4. EMPAQUE / EMBALAJE -->
+      <article class="accordion-card" data-section="empaque">
+        <button class="section-header" aria-expanded="false">
+          <span class="section-number">05</span>
+          <span class="section-title"><i data-lucide="package"></i>Empaque / embalaje</span>
+          <i data-lucide="chevron-down" class="chev"></i>
+        </button>
+        <div class="accordion-body" hidden>
+          <p class="helper-text">Tipo de embalaje empleado para preservar o conservar cada indicio.</p>
+          <div class="record-grid three">
+            <div class="field"><span>Bolsa</span><textarea id="empaqueBolsa" rows="2" placeholder="Ej. 1A"></textarea></div>
+            <div class="field"><span>Caja</span><textarea id="empaqueCaja" rows="2" placeholder="Ej. 2B"></textarea></div>
+            <div class="field"><span>Recipientes</span><textarea id="empaqueRecipientes" rows="2" placeholder="Ej. 3C"></textarea></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5. SERVIDORES PÚBLICOS -->
+      <article class="accordion-card" data-section="servidores">
+        <button class="section-header" aria-expanded="false">
+          <span class="section-number">06</span>
+          <span class="section-title"><i data-lucide="users-round"></i>Servidores públicos</span>
+          <i data-lucide="chevron-down" class="chev"></i>
+        </button>
+        <div class="accordion-body" hidden>
+          <p class="helper-text">Todo servidor público que participó en el procesamiento debe registrar nombre, institución, cargo, etapa y firma. La primera fila se llena con tu cuenta.</p>
+          <table class="data-table" id="tablaServidores">
+            <thead>
+              <tr><th>Nombre completo</th><th>Institución y cargo</th><th>Etapa</th><th>Firma</th><th></th></tr>
+            </thead>
+            <tbody id="servidoresBody"></tbody>
+          </table>
+          <button class="text-link add-row-btn" id="addServidorRow"><i data-lucide="plus"></i> Agregar servidor público</button>
+        </div>
+      </article>
+
+      <!-- 7. CONTINUIDAD Y TRAZABILIDAD -->
+      <article class="accordion-card" data-section="trazabilidad">
+        <button class="section-header" aria-expanded="false">
+          <span class="section-number">08</span>
+          <span class="section-title"><i data-lucide="route"></i>Continuidad y trazabilidad</span>
+          <i data-lucide="chevron-down" class="chev"></i>
+        </button>
+        <div class="accordion-body" hidden>
+          <p class="helper-text">La continuidad y trazabilidad se construye automáticamente a partir de los movimientos y las entregas–recepciones confirmadas que se registren después de crear el RCC.</p>
+          <div class="notice" role="note"><strong><span class="badge-auto">AUTO</span> Historial de custodia</strong><p>El sistema agregará fecha y hora, usuario que entrega, receptor, etapa de origen y destino, actividad, lugar y estado del embalaje. Los datos de perfil y la identidad del indicio se recuperan del registro; no es necesario volver a capturarlos aquí.</p><p>La recepción debe ser aceptada por el usuario destinatario antes de cambiar al responsable vigente. Las correcciones posteriores se registrarán como eventos adicionales, sin sobrescribir el historial anterior.</p></div>
+          <p class="helper-text">Después de guardar el RCC, consulta los movimientos desde el módulo de Entrega–recepción y las páginas de cada etapa.</p>
+        </div>
+      </article>
+
+    </div>
+
+    <footer><span id="footerStatus">Sin guardar</span><span>Uso interno · Datos protegidos</span></footer>
+  </div>
+
+  <!-- MODAL "MI PERFIL" (solo lectura, datos desde el backend) -->
+  <div class="modal-backdrop" id="profileModal" hidden>
+    <div class="modal">
+      <div class="modal-head"><strong>Mi perfil</strong><button id="closeProfile" aria-label="Cerrar"><i data-lucide="x"></i></button></div>
+      <div class="modal-body">
+        <p class="helper-text">Estos datos vienen de tu usuario en la base de datos del backend y se usan para autollenar el formulario.</p>
+        <div class="profile-view-row"><span>NOMBRE COMPLETO</span><strong id="perfilViewNombre">—</strong></div>
+        <div class="profile-view-row"><span>INSTITUCIÓN</span><strong id="perfilViewInstitucion">—</strong></div>
+        <div class="profile-view-row"><span>CARGO</span><strong id="perfilViewCargo">—</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <template id="identidadRowTpl">
+    <tr>
+      <td><input type="text" class="cell-id" placeholder="1A" /></td>
+      <td><input type="text" class="cell-desc" placeholder="Descripción del indicio" /></td>
+      <td><input type="text" class="cell-ubic" placeholder="Se llena con tu ubicación" /></td>
+      <td><input type="text" class="cell-hora" /></td>
+      <td><label class="mini-upload"><i data-lucide="image-plus"></i><input type="file" accept="image/*" class="cell-foto" hidden /><span class="cell-foto-name">—</span></label></td>
+      <td><button class="row-remove" aria-label="Quitar"><i data-lucide="trash-2"></i></button></td>
+    </tr>
+  </template>
+
+  <template id="servidorRowTpl">
+    <tr>
+      <td><input type="text" class="cell-nombre" placeholder="Nombre completo" /></td>
+      <td><input type="text" class="cell-inst" placeholder="Institución y cargo" /></td>
+      <td><input type="text" class="cell-etapa" placeholder="Ej. Recolección" /></td>
+      <td class="sig-cell">
+        <canvas class="sig-pad" width="180" height="60"></canvas>
+        <button class="sig-clear" type="button">Borrar</button>
+      </td>
+      <td><button class="row-remove" aria-label="Quitar"><i data-lucide="trash-2"></i></button></td>
+    </tr>
+  </template>
+
+</main>
+</body>
+</html>

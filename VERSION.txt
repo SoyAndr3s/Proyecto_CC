@@ -1,0 +1,4 @@
+Project CC v7
+Arquitectura: 1 máquina (Ubuntu 24.04 + Docker Compose)
+Fabric: 2.5.x
+Fecha: 2026-11-15

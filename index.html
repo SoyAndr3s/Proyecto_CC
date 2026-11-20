@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#1f1f1f" />
+    <title>Panel de inicio | Custodia Digital</title>
+    <link rel="stylesheet" href="css/portal.css" />
+    <!-- Pre-paint theme: evita el destello de tema incorrecto al cargar la página -->
+    <script>(function(){var t=localStorage.getItem('cadena_custodia_theme')||'dark';document.documentElement.className='pre-theme-'+t;})();</script>
+    <script
+      src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"
+      defer
+    ></script>
+    <script src="js/config.js" defer></script>
+    <script src="js/portal-theme.js" defer></script>
+    <script src="js/portal.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell theme-dark" id="app">
+      <header class="topbar">
+        <a class="brand" href="index.html"
+          ><span class="brand-mark"><i data-lucide="shield-check"></i></span
+          ><span>Custodia <span class="brand-dot">Digital</span></span></a
+        >
+        <nav class="main-nav">
+          <a class="nav-item active" href="index.html"
+            ><i data-lucide="home"></i>Inicio</a
+          ><a class="nav-item primary" href="rcc.html"
+            ><i data-lucide="file-plus-2"></i>Registro RCC</a
+          >
+        <a class="nav-item" id="adminNav" href="admin.html" hidden><i data-lucide="shield-check"></i>Administración</a>
+        </nav>
+        <div class="topbar-actions">
+          <button
+            class="icon-button"
+            id="portalTheme"
+            aria-label="Cambiar tema"
+          >
+            <i data-lucide="sun-moon"></i></button
+          ><span class="avatar" id="portalAvatar">--</span
+          ><span id="portalName">Usuario</span
+          ><button
+            class="icon-button"
+            id="portalLogout"
+            aria-label="Cerrar sesión"
+          >
+            <i data-lucide="log-out"></i>
+          </button>
+        </div>
+      </header>
+      <main class="main-content">
+        <section class="welcome-section">
+          <div>
+            <span class="eyebrow" id="currentDate"></span>
+            <h1>
+              <span id="greeting">Bienvenido</span>,
+              <span id="welcomeName">usuario</span><span class="accent">.</span>
+            </h1>
+            <p>
+              Panel de control para el registro, entrega, traslado y seguimiento
+              de indicios.
+            </p>
+          </div>
+        </section>
+        <section class="dashboard-grid">
+          <article class="profile-card panel-card">
+            <div class="card-heading">
+              <div>
+                <span class="eyebrow">MI PERFIL</span>
+                <h2>Información del usuario</h2>
+              </div>
+              <i data-lucide="user-round"></i>
+            </div>
+            <div class="profile-overview">
+              <span class="avatar avatar-large" id="profileAvatar">--</span>
+              <div>
+                <h3 id="profileName">Usuario</h3>
+                <span class="status"><span></span> Sesión activa</span>
+              </div>
+            </div>
+            <div class="profile-details">
+              <div class="detail-row">
+                <i data-lucide="building-2"></i>
+                <div>
+                  <small>INSTITUCIÓN</small
+                  ><strong id="profileInstitution">—</strong>
+                </div>
+              </div>
+              <div class="detail-row">
+                <i data-lucide="briefcase-business"></i>
+                <div>
+                  <small>CARGO</small><strong id="profileRole">—</strong>
+                </div>
+              </div>
+              <div class="detail-row">
+                <i data-lucide="shield-check"></i>
+                <div>
+                  <small>USUARIO</small><strong id="profileUser">—</strong>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div class="right-column">
+            <article class="quick-panel panel-card">
+              <div class="card-heading">
+                <div>
+                  <span class="eyebrow">MÓDULOS</span>
+                  <h2>Accesos rápidos</h2>
+                </div>
+              </div>
+              <div class="quick-actions">
+                <a href="rcc.html"
+                  ><span class="quick-icon gold"
+                    ><i data-lucide="file-plus-2"></i></span
+                  ><span
+                    ><strong>Registro de Cadena de Custodia</strong
+                    ><small
+                      >Identificación, documentación y recolección</small
+                    ></span
+                  ><i data-lucide="chevron-right"></i
+                ></a>
+                <a href="entrega-recepcion.html"
+                  ><span class="quick-icon blue"
+                    ><i data-lucide="arrow-left-right"></i></span
+                  ><span
+                    ><strong>Entrega–recepción</strong
+                    ><small>Registrar el cambio de responsable</small></span
+                  ><i data-lucide="chevron-right"></i
+                ></a>
+                <a href="traslado.html"
+                  ><span class="quick-icon green"
+                    ><i data-lucide="truck"></i></span
+                  ><span
+                    ><strong>Traslado</strong
+                    ><small>Origen, destino y condiciones</small></span
+                  ><i data-lucide="chevron-right"></i
+                ></a>
+                <a href="analisis.html"
+                  ><span class="quick-icon blue"
+                    ><i data-lucide="microscope"></i></span
+                  ><span
+                    ><strong>Análisis</strong
+                    ><small>Documentar la intervención pericial</small></span
+                  ><i data-lucide="chevron-right"></i
+                ></a>
+                <a href="almacenamiento.html"
+                  ><span class="quick-icon gold"
+                    ><i data-lucide="warehouse"></i></span
+                  ><span
+                    ><strong>Almacenamiento</strong
+                    ><small>Ingreso, ubicación y resguardo</small></span
+                  ><i data-lucide="chevron-right"></i
+                ></a>
+                <a href="presentacion.html"
+                  ><span class="quick-icon green"
+                    ><i data-lucide="scale"></i></span
+                  ><span
+                    ><strong>Juicio / presentación</strong
+                    ><small>Uso del indicio en etapa judicial</small></span
+                  ><i data-lucide="chevron-right"></i
+                ></a>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section class="bottom-section">
+          <div class="section-title">
+            <div>
+              <span class="eyebrow">MIS REGISTROS</span>
+              <h2>Indicios bajo mi responsabilidad</h2>
+            </div>
+            <button class="text-action" id="refreshRecords">
+              Actualizar <i data-lucide="refresh-cw"></i>
+            </button>
+          </div>
+          <div id="recordsList" class="activity-list">
+            <p class="muted">Cargando registros asignados…</p>
+          </div>
+          <p class="privacy-note">
+            <i data-lucide="lock-keyhole"></i> La trazabilidad detallada solo
+            está disponible para el responsable vigente asignado al indicio.
+          </p>
+        </section>
+      </main>
+      <footer>
+        <span>Custodia Digital · Sistema de registro y trazabilidad</span
+        ><span>Sin componente blockchain</span>
+      </footer>
+    </div>
+  </body>
+</html>

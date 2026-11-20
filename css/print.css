@@ -1,0 +1,10 @@
+@media print {
+  .login-screen, .topbar, .menu-popover, .heading-actions, .add-row-btn, .row-remove,
+  .row-remove-block, .sig-clear, #btnRelocate, .mapbox-container, .theme-toggle {
+    display: none !important;
+  }
+  body { background: white; color: #111; }
+  .accordion-body { display: block !important; }
+  .section-header .chev { display: none; }
+  .accordion-card, .record-card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+}

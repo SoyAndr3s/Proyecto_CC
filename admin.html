@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Administración | Custodia Digital</title>
+  <link rel="stylesheet" href="css/portal.css">
+  <script>(function(){var t=localStorage.getItem('cadena_custodia_theme')||'dark';document.documentElement.className='pre-theme-'+t;})();</script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+  <script src="js/config.js" defer></script><script src="js/portal-theme.js" defer></script><script src="js/admin.js" defer></script>
+  <style>
+    .admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:18px 0}
+    .admin-stat,.admin-panel{background:var(--panel,rgba(255,255,255,.04));border:1px solid var(--border,rgba(255,255,255,.12));border-radius:16px;padding:18px}
+    .admin-stat strong{display:block;font-size:1.8rem;margin-top:8px}.admin-panel{margin:16px 0;overflow:auto}
+    .admin-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;align-items:end}
+    .admin-form label{display:grid;gap:6px;font-size:.88rem}.admin-form input,.admin-form select{width:100%;padding:11px;border:1px solid var(--border);border-radius:9px;background:var(--input-bg,transparent);color:inherit}
+    .admin-panel button{padding:10px 14px;border:0;border-radius:9px;cursor:pointer}.admin-primary{background:var(--accent,#4f8cff);color:white}.admin-muted{color:var(--muted,#999)}
+    .admin-table{width:100%;border-collapse:collapse;min-width:650px}.admin-table th,.admin-table td{padding:11px;text-align:left;border-bottom:1px solid var(--border,rgba(255,255,255,.1));font-size:.88rem}.admin-table select{padding:7px;border-radius:7px;max-width:160px}
+    .admin-actions{display:flex;gap:7px;flex-wrap:wrap}.admin-message{margin-top:12px;min-height:1.5em}.admin-danger{background:#9f3030;color:white}
+  </style>
+</head>
+<body>
+<div class="app-shell theme-dark" id="app">
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark"><i data-lucide="shield-check"></i></span><span>Custodia <span class="brand-dot">Digital</span></span></a>
+    <nav class="main-nav"><a class="nav-item" href="index.html"><i data-lucide="home"></i>Inicio</a><a class="nav-item active" href="admin.html"><i data-lucide="settings"></i>Administración</a></nav>
+    <div class="topbar-actions"><button class="icon-button" id="adminTheme" aria-label="Cambiar tema"><i data-lucide="sun-moon"></i></button><span id="adminUser"></span><button class="icon-button" id="adminLogout" aria-label="Cerrar sesión"><i data-lucide="log-out"></i></button></div>
+  </header>
+  <main class="module-wrap">
+    <div class="welcome-section"><div><span class="eyebrow">CONTROL DEL SISTEMA</span><h1>Administración</h1><p>Gestión de cuentas, roles, permisos y auditoría. Las operaciones quedan registradas.</p></div></div>
+    <div class="admin-grid" id="adminStats"><article class="admin-stat">Usuarios<strong>—</strong></article><article class="admin-stat">Registros<strong>—</strong></article><article class="admin-stat">Entregas pendientes<strong>—</strong></article><article class="admin-stat">Eventos auditados<strong>—</strong></article></div>
+    <section class="admin-panel"><h2>Crear usuario</h2><form id="createUserForm" class="admin-form">
+      <label>Usuario<input name="usuario" required autocomplete="off"></label><label>Contraseña inicial<input name="password" type="password" minlength="12" required autocomplete="new-password"></label>
+      <label>Nombre completo<input name="nombre" required></label><label>Institución<input name="institucion"></label><label>Cargo<input name="cargo"></label>
+      <label>Rol<select name="rol"><option value="perito">Perito / procesador</option><option value="analista">Analista forense</option><option value="almacenista">Almacenista</option><option value="primer_respondiente">Primer respondiente</option><option value="supervisor">Supervisor</option></select></label>
+      <button class="admin-primary" type="submit">Crear cuenta</button>
+    </form><p class="admin-muted">La cuenta se crea activa. La contraseña se almacena mediante hash; no se muestra posteriormente.</p><div id="createUserMessage" class="admin-message" role="status"></div></section>
+    <section class="admin-panel"><h2>Usuarios y permisos</h2><p class="admin-muted">Cambiar el rol modifica los permisos base. Las excepciones individuales se gestionan en el bloque inferior.</p><div id="usersTable">Cargando usuarios…</div><div id="adminAssignments" style="margin-top:14px"></div>
+      <div class="admin-form" style="margin-top:18px"><label>Usuario seleccionado<select id="permissionUser"><option value="">Selecciona…</option></select></label><label>Permiso<input id="permissionName" placeholder="Ej. analisis.create"></label><label>Acción<select id="permissionValue"><option value="true">Conceder permiso</option><option value="false">Denegar permiso</option><option value="reset">Restablecer según rol</option></select></label><button id="savePermission" class="admin-primary" type="button">Guardar excepción</button></div><p class="admin-muted">Permisos conocidos: rcc.create, traslado.create, analisis.create, almacenamiento.create, juicio.create, entrega.create, movimiento.create, trace.read_own, trace.read_all, records.read_all, audit.read, admin.access, admin.users, admin.permissions.</p><div id="permissionMessage" class="admin-message" role="status"></div>
+    </section>
+    <section class="admin-panel"><h2>Registros e indicios bajo supervisión</h2><p class="admin-muted">Consulta la asignación vigente por indicio y abre su trazabilidad individual. Cada consulta queda auditada.</p><div id="adminRecords">Cargando registros…</div><div id="adminTrace" style="margin-top:14px"></div></section>
+    <section class="admin-panel"><h2>Auditoría de seguridad</h2><p class="admin-muted">Registro de autenticaciones, permisos denegados, operaciones y cambios administrativos. La ubicación por IP no se interpreta como ubicación exacta.</p><div id="auditTable">Cargando auditoría…</div></section>
+    <section class="admin-panel"><h2>Solicitudes al servidor</h2><p class="admin-muted">Método, ruta, código HTTP, IP y agente de usuario. No se almacena el cuerpo de las solicitudes.</p><div id="httpRequests">Cargando solicitudes…</div></section>
+  </main>
+</div>
+</body></html>

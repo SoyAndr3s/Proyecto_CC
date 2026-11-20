@@ -1,0 +1,75 @@
+/* =====================================================================
+   PALETA DE COLORES
+   Claros:  #E6EAEE (fondo), #A7B2BC (bordes/texto tenue)
+   Medios:  #4B6177 (texto secundario)
+   Oscuros: #1B3355 (tarjetas/topbar), #0A1A2F (fondo modo oscuro / topbar)
+   Acento:  dorado/amarillo para títulos, igual que la versión anterior
+   ===================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* Paleta base */
+  --navy-950: #1F1F1F;
+  --navy-800: #292929;
+  --slate-600: #657178;
+  --slate-300: #A8A8A8;
+  --mist-100: #F2F0EB;
+
+  /* Acento (títulos, íconos destacados) */
+  --accent: #E8B94A;
+  --accent-soft: #F4E3B8;
+  --accent-strong: #C99424;
+
+  /* Tokens semánticos — modo claro (por defecto) */
+  --background: #F5F6F8;
+  --foreground: var(--navy-950);
+  --card: #ffffff;
+  --card-foreground: var(--navy-950);
+  --muted: #f1f4f6;
+  --muted-foreground: var(--slate-600);
+  --border: #DCE1E5;
+  --ring: var(--accent);
+
+  --topbar-bg: #FFFFFF;
+  --topbar-fg: #20282C;
+  --topbar-border: #DCE1E5;
+
+  --record-top-bg: #292929;
+  --record-top-fg: #F2F0EB;
+
+  --radius: .65rem;
+  --font-sans: 'Inter', 'Arial', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+/* Modo oscuro — se activa poniendo data-theme="dark" en <html>
+   Paleta tomada de los colores del mapa (Land, Motorway, Greenspace,
+   Water, Transit, POI). El amarillo de acento NO cambia. */
+html[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* Tonos del mapa */
+  --map-water: #1F1F1F;
+  --map-land: #292929;
+  --map-greenspace: #272525;
+  --map-motorway: #3D3D3D;
+  --map-transit: #A8A8A8;
+  --map-poi: #878787;
+
+  --background: #1F1F1F;
+  --foreground: var(--mist-100);
+  --card: #292929;
+  --card-foreground: var(--mist-100);
+  --muted: #242424;
+  --muted-foreground: #A8A8A8;
+  --border: #3D3D3D;
+  --ring: var(--accent);
+
+  --topbar-bg: #1F1F1F;
+  --topbar-fg: #20282C;
+  --topbar-border: #3D3D3D;
+
+  --record-top-bg: #1F1F1F;
+  --record-top-fg: #F2F0EB;
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Iniciar sesión | Custodia Digital</title>
+        <link rel="stylesheet" href="css/portal.css">
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+        <script src="js/config.js" defer></script>
+        <script src="js/login-page.js" defer></script>
+    </head>
+    <body class="login-page">
+        <main class="login-wrap">
+            <section class="login-card">
+                <div class="login-brand">
+                    <span class="brand-mark">
+                        <i data-lucide="shield-check"></i>
+                    </span>
+                    <span class="eyebrow">SISTEMA DE REGISTRO</span>
+                    <h1>Custodia <span class="accent">Digital</span></h1>
+                    <p>Acceso institucional al registro y seguimiento de indicios.</p>
+                </div>
+                <form id="loginForm">
+                    <label class="field">
+                        <span>Usuario</span>
+                        <input id="loginUsuario" autocomplete="username" required>
+                    </label><label class="field">
+                        <span>Contraseña</span>
+                        <input id="loginPassword" type="password" autocomplete="current-password" required>
+                    </label>
+                    <div id="turnstileWidget" style="margin:14px 0"></div>
+                    <div id="loginError" role="alert"></div>
+                    <button class="login-submit" type="submit">Iniciar sesión <span>→</span></button>
+                </form>
+                <small>El acceso y las etapas están sujetos a permisos por responsable.</small>
+            </section>
+        </main>
+        <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+    </body>
+</html>
